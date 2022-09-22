@@ -1,0 +1,353 @@
+//Single Linked List
+
+#include<iostream>
+#include<conio.h>
+
+using namespace std;
+
+class NODE
+{
+public:
+	int info;
+	NODE *next;
+	NODE()
+	{
+		next = NULL;
+	}
+};
+
+class  SingleLinkedList
+{
+private:
+	NODE *list, *p, *q, *k, *r;
+public:
+	SingleLinkedList()
+	{
+		list = NULL;
+	}
+	void  addAtHead(int  n)
+	{
+		if (list == NULL)
+		{
+			p = new NODE;
+			p->info = n;
+			list = p;
+			cout << "Node inserted at head";
+			return;
+		}
+
+		p = new NODE;
+		p->info = n;
+		p->next = list;
+		list = p;
+		cout << "Node inserted at head";
+
+	}
+
+	void  addAtTail(int n)
+	{
+		if (list == NULL)
+		{
+			p = new NODE;
+			p->info = n;
+			list = p;
+			cout << "Node inserted at tail";
+			return;
+		}
+		p = new NODE();
+		p->info = n;
+
+		q = list;
+		while (q->next != NULL)
+		{
+			q = q->next;
+		}
+		q->next = p;
+		cout << "Node inserted at tail";
+	}
+	void  addAtPosition(int n,int pos)
+	{
+		p = new NODE;
+		p->info = n;
+		int t = 0;
+		q = list;
+		while (q->next != NULL && t < pos)
+		{
+			q = q->next;
+			t++;
+		}
+		if (t > pos)
+		{
+			cout << "Position out of range";
+			return;
+		}
+		p->next = q->next;
+		q->next = p;
+		cout << "Node inserted after position " << t;
+
+	}
+	void  deleteNode(int n)
+	{
+		if (list == NULL)
+		{
+			cout << "List is empty";
+			return;
+		}
+
+		if (list->info == n && list->next == NULL)
+		{
+			q = list;
+			delete q;
+			cout << "Node deleted";
+			return;
+		}
+		else if (list->info == n && list->next != NULL)
+		{
+			q = list;
+			list = list->next;
+			delete q;
+			cout << "Node deleted";
+			return;
+		}
+		q = list;
+		
+		while (q->next != NULL && q->info != n)
+		{
+			k = q;
+			q = q->next;
+		}
+		if (q->info == n)
+		{
+			k->next = q->next;
+			delete q;
+			cout << "Node deleted";
+		}
+		else
+		{
+			cout << n << " info not found in the list";
+		}
+
+	}
+	void deleteNodeAtPosition(int p)
+	{
+		if (list == NULL)
+		{
+			cout << "List is empty";
+			return;
+		}
+
+		if (p==0 && list->next==NULL)
+		{
+			q = list;
+			list = NULL;
+			delete q;
+			cout << "Node deleted";
+			return;
+		}
+		else if (p==0 && list->next != NULL)
+		{
+			q = list;
+			list = list->next;
+			delete q;
+			cout << "Node deleted";
+			return;
+		}
+		q = list;
+		int i;
+		for (i = 0; i < p; i++)
+		{
+			k = q;
+			q = q->next;
+		}
+		
+		if (i==p)
+		{
+			k->next = q->next;
+			delete q;
+			cout << "Node deleted";
+		}
+		else
+		{
+			cout << "position out of range";
+		}
+
+	}
+	void  printList()
+	{
+		if (list == NULL)
+		{
+			cout << "list is empty";
+			return;
+		}
+		for (q = list; q != NULL; q = q->next)
+		{
+			cout << q->info << "\t";// "," << q->next << "\t"
+		}
+	}
+	void  sortList()
+	{
+		if (list == NULL)
+		{
+			cout << "List is empty";
+			return;
+		}
+		int t;
+		for (q = list; q->next != NULL; q = q->next)
+		{
+			for (k = q->next; k != NULL; k = k->next)
+			{
+				if (q->info > k->info)
+				{
+					t = q->info;
+					q->info = k->info;
+					k->info = t;
+				}
+			}
+		}
+		cout << "List sorted";
+	}
+	void  searchInList(int n)
+	{
+		if (list == NULL)
+		{
+			cout << "List is empty";
+			return;
+		}
+		int pos;
+		for (q = list,pos=0; q != NULL; q = q->next)
+		{
+			if (q->info == n)
+			{
+				cout << n << " found the list at "<<pos;
+				return;
+			}
+			pos++;
+		}
+		cout << n << " not found in the list";
+
+	}
+	int countList()
+	{
+		if (list == NULL)
+		{
+			cout << "List is empty";
+			return 0;
+		}
+		int c=0;
+		for (q = list,c=0; q != NULL; q = q->next)
+		{
+			c++;
+		}
+		return c;
+	}
+	void  reverseList()
+	{
+		if (list == NULL)
+		{
+			cout << "List is empty";
+			return;
+		}
+
+		p = list;
+		q = p->next;
+		k = q->next;
+		while (k->next != NULL)
+		{
+			q->next = p;
+			p = q;
+			q = k;
+			k = k->next;
+		}
+		q->next = p;
+		k->next = q;
+		list->next = NULL;
+		list = k;
+		cout << "List reversed successfully";
+	}
+
+};
+
+void main()
+{
+	int choice,info,pos,count;
+	SingleLinkedList sl;
+	do
+	{
+	system("cls");
+	cout << "MENU" << endl;
+	cout << "====" << endl;
+	cout << "1.AddAtHead" << endl;
+	cout << "2.AddAtTail" << endl;
+	cout << "3.AtAtPositon" << endl;
+	cout << "4.DeleteNode" << endl;
+	cout << "5.DeleteAtPosition" << endl;
+	cout << "6.PrintList" << endl;
+	cout << "7.SortList" << endl;
+	cout << "8.SerachList" << endl;
+	cout << "9.CountList" << endl;
+	cout << "10.ReverseList" << endl;
+	cout << "11.Exit" << endl;
+	cout << "Enter your chocie:";
+	cin >> choice;
+	switch (choice)
+	{
+	case 1:
+		cout << "Enter info to insert in head:";
+		cin >> info;
+		sl.addAtHead(info);
+		break;
+	case 2:
+		cout << "Enter the into to insert at tail:";
+		cin >> info;
+		sl.addAtTail(info);
+		break;
+	case 3:
+		cout << "Enter the position to insert:";
+		cin >> pos;
+		cout << "Enter the info to insert:";
+		cin >> info;
+		sl.addAtPosition(info, pos);
+		break;
+	case 4:
+		cout << "Enter the info to delete:";
+		cin >> info;
+		sl.deleteNode(info);
+		break;
+	case 5:
+		cout << "Enter the position to delete node:";
+		cin >> pos;
+		count = sl.countList();
+		if (pos >= count)
+		{
+			cout << pos << " position out of range";
+			break;
+		}
+		sl.deleteNodeAtPosition(pos);
+		break;
+	case 6:
+		sl.printList();
+		break;
+	
+	case 7:
+		sl.sortList();
+		break;
+	case 8:
+		cout << "Enter the node info to search:";
+		cin >> info;
+		sl.searchInList(info);
+		break;
+	case 9:
+		count = sl.countList();
+		cout << "No of nodes:" << count;
+		break;
+	case 10:
+		sl.reverseList();
+		break;
+	case 11:
+		exit(0);
+	default:
+		cout << "Invalid choice";
+	}
+	_getch();
+	} while (choice != 11);
+}
